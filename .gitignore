@@ -37,3 +37,7 @@
 # Ignore SSL keys
 /config/ssl/*.key
 /config/ssl/*.crt
+
+# SSL certificates
+/config/ssl/server.key
+/config/ssl/server.crt
