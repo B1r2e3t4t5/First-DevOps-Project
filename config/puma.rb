@@ -11,11 +11,14 @@ end
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
 # SSL binding for HTTPS on localhost:3000
-ssl_bind '0.0.0.0', '3000', {
-  key: 'config/ssl/server.key',
-  cert: 'config/ssl/server.crt',
-  verify_mode: 'none'
-}
+# ssl_bind '0.0.0.0', '3000', {
+#   key: 'config/ssl/server.key',
+#   cert: 'config/ssl/server.crt',
+#   verify_mode: 'none'
+# }
+
+# Using for HTTP only as tempory fix to get container on AWS
+port ENV.fetch("PORT") { 3000 }
 
 environment ENV.fetch("RAILS_ENV", "development")
 pidfile ENV.fetch("PIDFILE", "tmp/pids/server.pid")

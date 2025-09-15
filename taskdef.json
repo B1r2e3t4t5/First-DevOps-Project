@@ -1,0 +1,48 @@
+{
+  "family": "tasklist-app-task",
+  "executionRoleArn": "arn:aws:iam::926725307964:role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+  "containerDefinitions": [
+    {
+      "name": "tasklist-app",
+      "image": "926725307964.dkr.ecr.eu-west-2.amazonaws.com/task_list",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [
+        {
+          "name": "DATABASE_HOST",
+          "value": "tasklist-db-1.cp6oc2iyk7xr.eu-west-2.rds.amazonaws.com"
+        },
+        {
+          "name": "DATABASE_USER",
+          "value": "postgres"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:eu-west-2:926725307964:secret:tasklist-db-password-2mzzMY"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/tasklist-app-task",
+          "awslogs-create-group": "true",
+          "awslogs-region": "eu-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
